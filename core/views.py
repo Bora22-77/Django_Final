@@ -120,7 +120,7 @@ class SubjectListView(LoginRequiredMixin, ListView):
     context_object_name = "subjects"
 
 # ---------- CREATE ----------
-class SubjectCreateView(LoginRequiredMixin, CreateView):
+class SubjectCreateView(LoginRequiredMixin, DetailView):
     model = Subject
     form_class = SubjectForm
     template_name = "core/subject_form.html"
@@ -130,3 +130,8 @@ class SubjectDetailView(LoginRequiredMixin, CreateView):
     form_class = SubjectForm
     template_name = "core/subject_form.html"
     success_url = reverse_lazy("subject_list")
+
+class TeacherListView(LoginRequiredMixin,ListView):
+    model=TeacherProfile
+    template_name="core/teacher_list.html"
+    context_object_name="teachers"

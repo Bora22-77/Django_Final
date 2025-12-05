@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 from .views import (register_view,login_view, StudentListView, StudentDetailView, StudentCreateView,
-                    AttendanceListView, AttendanceCreateView, GradeListView, GradeCreateView,SubjectListView,SubjectCreateView,SubjectDetailView)
+                    AttendanceListView, AttendanceCreateView, GradeListView, GradeCreateView,SubjectListView,SubjectCreateView,SubjectDetailView
+                    ,TeacherListView)
 from accounts import views
 urlpatterns = [
     path('', views.register_view, name="register"),
@@ -16,4 +17,5 @@ urlpatterns = [
     path("subjects/", SubjectListView.as_view(), name="subject_list"),
     path("subjects/create/", SubjectCreateView.as_view(), name="subject_create"),
     path("subjects/<int:pk>/",SubjectDetailView.as_view,name='subject-detail'),
+    path("teachers/",TeacherListView.as_view(),name='teacher_list')
 ]

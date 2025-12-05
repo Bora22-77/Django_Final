@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import TeacherProfile, StudentProfile, ParentProfile,StaffProfile, SchoolClass,Attendance, Grade,User
+from django.core.exceptions import ObjectDoesNotExist
 # from .models import User
 
 def login_view(request):
@@ -116,4 +117,8 @@ def parent_dashboard(request):
 
 @login_required
 def staff_dashboard(request):
-    return render(request, "accounts/staff_dashboard.html")
+    try:
+        staff=request.user.staffprofile
+    except ObjectDoesNotExist:
+        staff=None
+    return render(request, "accounts/staff_dashboard.html",{"staff" : staff})

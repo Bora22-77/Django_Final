@@ -1,14 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Staff Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+{% extends 'base_dashboard.html' %}
+{% block title %}Staff Dashboard{% endblock %}
 
-<body>
-<div class="container mt-5">
-    <h2>Welcome Staff , {{ staff.user.first_name }}</h2>
-    <p>You have permission to manage attendance, records, and school operations.</p>
+{% block content %}
+<div class="dashboard-card mb-4">
+    <h5 class="fw-bold mb-3"><i class="bi bi-info-circle text-primary"></i> Staff Info</h5>
+    <p><strong>Positions :</strong> {{ staff.position }}</p>
+    <p><strong>Phone :</strong>{{ staff.phone }}</p>
+    <p><strong>Bio :</strong>{{staff.bio}}</p>
 </div>
-</body>
-</html>
+
+<div class="dashboard-card">
+    <h5 class="fw-bold mb-3"><i class="bi bi-journal-bookmark text-success"></i> Assigned Classes</h5>
+    <ul>
+        {% for cls in teacher.classes.all %}
+        <li>{{ cls.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
