@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+{% block content %}
+  <h1 class="h3 mb-3">{{ student.user.get_full_name }}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <p><strong>Class:</strong> {{ student.school_class }}</p>
+      <p><strong>Roll:</strong> {{ student.roll_number }}</p>
+      <p><strong>Parent:</strong> {{ student.parent }}</p>
+    </div>
+  </div>
+
+  <h5 class="mt-4">Attendance</h5>
+  <a class="btn btn-sm btn-secondary mb-2" href="{% url 'attendance-add' %}">➕Add Attendance</a>
+  <ul class="list-group mb-3">
+    {% for a in student.attendance_set.all %}
+      <li class="list-group-item">{{ a.date }} — {{ a.status }} {% if a.remark %} ({{ a.remark }}){% endif %}</li>
+    {% empty %}
+      <li class="list-group-item">No attendance records</li>
+    {% endfor %}
+  </ul>
+
+  <h5>Grades</h5>
+  <a class="btn btn-sm btn-success mb-2" href="{% url 'grade-add' %}">➕Add Grade</a>
+  <ul class="list-group">
+    {% for g in student.grade_set.all %}
+      <li class="list-group-item">{{ g.subject }} — {{ g.marks_obtained }}/{{ g.max_marks }} ({{ g.term }})</li>
+    {% empty %}
+      <li class="list-group-item">No grades</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

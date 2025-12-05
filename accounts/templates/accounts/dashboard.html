@@ -1,0 +1,63 @@
+{% extends 'core/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-9">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h1 class="h3">Dashboard</h1>
+      <div><a class="btn btn-outline-primary" href="{% url 'admin:index' %}">Admin</a></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-sm-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h6 class="card-title text-muted">Students</h6>
+            <h3 class="card-text">{{ students_count }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h6 class="card-title text-muted">Teachers</h6>
+            <h3 class="card-text">{{ teachers_count }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h6 class="card-title text-muted">Classes</h6>
+            <h3 class="card-text">{{ classes_count }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h5>Recent Attendance</h5>
+    <table class="table table-hover">
+      <thead><tr><th>Student</th><th>Date</th><th>Status</th></tr></thead>
+      <tbody>
+        {% for a in recent_attendance %}
+          <tr><td>{{ a.student }}</td><td>{{ a.date }}</td><td>{{ a.status }}</td></tr>
+        {% empty %}
+          <tr><td colspan="3">No records</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h6 class="card-title">Quick Actions</h6>
+        <p><a href="{% url 'student-add' %}" class="btn btn-sm btn-primary w-100">Add Student</a></p>
+        <p><a href="{% url 'attendance-add' %}" class="btn btn-sm btn-secondary w-100">Add Attendance</a></p>
+        <p><a href="{% url 'grade-add' %}" class="btn btn-sm btn-success w-100">Add Grade</a></p>
+        <p><a href="{% url 'subject_create' %}" class="btn btn-sm btn-warning w-100">Add Subject</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

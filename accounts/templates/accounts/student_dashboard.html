@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body { background:#f1f2f6; }
+        .card-box { background:white; padding:20px; border-radius:12px; }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-4">
+    <h3>Welcome, {{ student.user.first_name }}</h3>
+
+    <div class="card-box mt-3">
+        <h5>Your Class: {{ student.school_class }}</h5>
+        <h5>Roll Number: {{ student.roll_number }}</h5>
+    </div>
+
+    <div class="card-box mt-3">
+        <h4>Your Grades</h4>
+        <table class="table">
+            <tr><th>Subject</th><th>Term</th><th>Marks</th></tr>
+            {% for g in grades %}
+            <tr>
+                <td>{{ g.subject.name }}</td>
+                <td>{{ g.term }}</td>
+                <td>{{ g.marks_obtained }}/{{ g.max_marks }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
