@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, StudentProfile, Attendance, Grade
-from .models import Subject
+from .models import Subject,SchoolClass
 
 class UserCreateForm(UserCreationForm):
     class Meta:
@@ -28,3 +28,7 @@ class SubjectForm(forms.ModelForm):
     class Meta:
         model = Subject
         fields = ["name", "code"]
+class ClassForm(forms.ModelForm):
+    class Meta:
+        model = SchoolClass
+        fields = ["name","section"]

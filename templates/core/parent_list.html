@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Teachers</h1>
+    <a class="btn btn-primary" href="">➕Add Parents</a>
+  </div>
+  <table class="table table-striped table-hover">
+    <thead><tr><th>Parent Name</th><th>Phone</th><th>Child Name</th><th>Action</th></tr></thead>
+    <tbody>
+      {% for p in parents %}
+      <tr>
+        <td>{{ p.user.get_full_name }}</td>
+        <td>{{ p.phone }}</td>
+        <td>
+          {% for child in parent.studentprofile_set.all %}
+            <p>{{ child.user.get_full_name }} (Roll: {{ child.roll_number }})</p>
+          {% empty %}
+            <p>No students linked.</p>
+          {% endfor %}
+        </td>
+        <td><a class="btn btn-sm btn-outline-primary" href="#">View</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4">No Parent</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

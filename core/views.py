@@ -7,9 +7,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
-from .models import User, TeacherProfile, StudentProfile, ParentProfile, SchoolClass,Attendance, Grade
+from .models import User, TeacherProfile, StudentProfile, ParentProfile, SchoolClass,Attendance, Grade,StaffProfile
 from .models import Subject
-from .forms import SubjectForm 
+from .forms import SubjectForm ,ClassForm
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -120,12 +120,12 @@ class SubjectListView(LoginRequiredMixin, ListView):
     context_object_name = "subjects"
 
 # ---------- CREATE ----------
-class SubjectCreateView(LoginRequiredMixin, DetailView):
+class SubjectCreateView(LoginRequiredMixin, CreateView):
     model = Subject
     form_class = SubjectForm
     template_name = "core/subject_form.html"
     success_url = reverse_lazy("subject_list")
-class SubjectDetailView(LoginRequiredMixin, CreateView):
+class SubjectDetailView(LoginRequiredMixin, DetailView):
     model = Subject
     form_class = SubjectForm
     template_name = "core/subject_form.html"
@@ -135,3 +135,25 @@ class TeacherListView(LoginRequiredMixin,ListView):
     model=TeacherProfile
     template_name="core/teacher_list.html"
     context_object_name="teachers"
+class TeacherDetailView(LoginRequiredMixin,DetailView):
+    model= TeacherProfile
+    template_name ="core/teacher_detail.html"
+    context_object_name ="teacher"
+class ClassListview(LoginRequiredMixin,ListView):
+    model = SchoolClass
+    template_name ="core/class_list.html"
+    context_object_name ="classes"
+class ClassCreateView(LoginRequiredMixin, CreateView):
+    model = SchoolClass
+    form_class = ClassForm
+    template_name = "core/class_form.html"
+    success_url = reverse_lazy("class_list")
+class ParentListView(LoginRequiredMixin, ListView):
+    model = ParentProfile
+    template_name = "core/parent_list.html"
+    context_object_name = "parents"
+class StaffListView(LoginRequiredMixin, ListView):
+    model = StaffProfile
+    template_name = "core/staff_list.html"
+    context_object_name = "staffs"
+

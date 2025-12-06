@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import (register_view,login_view, StudentListView, StudentDetailView, StudentCreateView,
                     AttendanceListView, AttendanceCreateView, GradeListView, GradeCreateView,SubjectListView,SubjectCreateView,SubjectDetailView
-                    ,TeacherListView)
+                    ,TeacherListView,TeacherDetailView,ClassListview,ClassCreateView,ParentListView,StaffListView)
 from accounts import views
 urlpatterns = [
     path('', views.register_view, name="register"),
@@ -16,6 +16,11 @@ urlpatterns = [
     path('grades/add/', GradeCreateView.as_view(), name='grade-add'),
     path("subjects/", SubjectListView.as_view(), name="subject_list"),
     path("subjects/create/", SubjectCreateView.as_view(), name="subject_create"),
-    path("subjects/<int:pk>/",SubjectDetailView.as_view,name='subject-detail'),
-    path("teachers/",TeacherListView.as_view(),name='teacher_list')
+    path("subjects/<int:pk>/",SubjectDetailView.as_view(),name='subject-detail'),
+    path("teachers/",TeacherListView.as_view(),name='teacher_list'),
+    path("teachers/<int:pk>", TeacherDetailView.as_view(),name='teacher-detail'),
+    path('classes/',ClassListview.as_view(),name='class-list'),
+    path('classes/create',ClassCreateView.as_view(),name='class-create'),
+    path('parents/', ParentListView.as_view(),name='parent-list'),
+    path('staffs/', StaffListView.as_view(),name='staff-list')
 ]
