@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import make_password
 from .models import User, TeacherProfile, StudentProfile, ParentProfile, SchoolClass,Attendance, Grade,StaffProfile
 from .models import Subject
-from .forms import SubjectForm ,ClassForm
+from .forms import SubjectForm ,ClassForm,TeacherForm,ParentForm,StaffForm
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -139,6 +139,11 @@ class TeacherDetailView(LoginRequiredMixin,DetailView):
     model= TeacherProfile
     template_name ="core/teacher_detail.html"
     context_object_name ="teacher"
+class TeacherCreateView(LoginRequiredMixin,CreateView):
+    model = TeacherProfile
+    form_class = TeacherForm
+    template_name ="core/teacher_form.html"
+    success_url = reverse_lazy("teachers")
 class ClassListview(LoginRequiredMixin,ListView):
     model = SchoolClass
     template_name ="core/class_list.html"
@@ -152,8 +157,18 @@ class ParentListView(LoginRequiredMixin, ListView):
     model = ParentProfile
     template_name = "core/parent_list.html"
     context_object_name = "parents"
+class ParentCreateView(LoginRequiredMixin,CreateView):
+    model = ParentProfile
+    form_class = ParentForm
+    template_name ="core/parent_form.html"
+    success_url = reverse_lazy("parents")
 class StaffListView(LoginRequiredMixin, ListView):
     model = StaffProfile
     template_name = "core/staff_list.html"
     context_object_name = "staffs"
+class StaffCreateView(LoginRequiredMixin,CreateView):
+    model = StaffProfile
+    form_class = StaffForm
+    template_name ="core/staff_form.html"
+    success_url = reverse_lazy("staffs")
 

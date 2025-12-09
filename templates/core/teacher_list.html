@@ -2,7 +2,7 @@
 {% block content %}
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h4">Teachers</h1>
-    <a class="btn btn-primary" href="">➕Add Teacher</a>
+    <a class="btn btn-primary" href="{% url 'teacher-create'%}">➕Add Teacher</a>
   </div>
   <table class="table table-striped table-hover">
     <thead><tr><th>Teacher Name</th><th>Subject</th><th>Bio</th><th></th></tr></thead>

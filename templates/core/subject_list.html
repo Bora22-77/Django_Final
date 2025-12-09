@@ -11,14 +11,14 @@
         <th>Code</th>
         <th>Actions</th>
     </tr> -->
-    <thead><tr><th>ID</th><th>Name</th><th>Code</th><th>Actions</th></tr></thead>
+    <thead><tr><th>ID</th><th>Name</th><th>Code</th></tr></thead>
     <tbody>
     {% for s in subjects %}
     <tr>
         <td>{{ s.id }}</td>
         <td>{{ s.name }}</td>
         <td>{{ s.code }}</td>
-        <td><a class="btn btn-sm btn-outline-primary" href="{% url 'subject-detail' s.pk %}">View</a></td>
+        <!-- <td><a class="btn btn-sm btn-outline-primary" href="{% url 'subject-detail' s.pk %}">View</a></td> -->
     </tr>
     {% endfor %}
     </tbody>
