@@ -7,8 +7,11 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.models import TeacherProfile, StudentProfile, ParentProfile,StaffProfile, SchoolClass,Attendance, Grade,User
 from django.core.exceptions import ObjectDoesNotExist
-# from .models import User
+from django.urls import reverse_lazy
+from django.views.generic import CreateView,UpdateView
+from core.forms import TeacherForm,StudentProfileForm,StaffForm,ParentForm
 
+# from .models import User
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -122,3 +125,72 @@ def staff_dashboard(request):
     except ObjectDoesNotExist:
         staff=None
     return render(request, "accounts/staff_dashboard.html",{"staff" : staff})
+
+@login_required
+def base_dashboard(request):
+    teacher = TeacherProfile.objects.get(user=request.user)
+    student = StudentProfile.objects.get(user=request.user)
+    parent = ParentProfile.objects.get(user=request.user)
+    staff = StaffProfile.objects.get(user=request.user)
+    return render(request, "accounts/base/dashboard.html",{"teacher": teacher, "student": student, "parent": parent, "staff": staff })
+
+
+
+class TeacherFillInforView(LoginRequiredMixin, UpdateView):
+    model = TeacherProfile
+    form_class = TeacherForm
+    template_name = "accounts/fill_info.html"
+    success_url = reverse_lazy("teacher_dashboard")
+    def get_object(self):
+        # Always return the teacher profile of the logged-in user
+        return TeacherProfile.objects.get(user=self.request.user)
+    #add teacher to context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["teacher"] = self.get_object()  # Add teacher for the header
+        return context
+    
+
+
+class StudentFillInforView(LoginRequiredMixin, UpdateView):
+    model = StudentProfile
+    form_class = StudentProfileForm
+    template_name = "accounts/fill_info.html"
+    success_url = reverse_lazy("student_dashboard")
+    def get_object(self):
+        # Always return the  student of the logged-in user
+        return StudentProfile.objects.get(user=self.request.user)
+    #add teacher to context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["student"] = self.get_object()  # Add student for the header
+        return context
+    
+
+class StaffFillInforView(LoginRequiredMixin, UpdateView):
+    model = StaffProfile
+    form_class = StaffForm
+    template_name = "accounts/fill_info_staff.html"
+    success_url = reverse_lazy("staff_dashboard")
+    def get_object(self):
+        # Always return the  student of the logged-in user
+        return StaffProfile.objects.get(user=self.request.user)
+    #add teacher to context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["staff"] = self.get_object()  # Add student for the header
+        return context
+    
+class ParentFillInforView(LoginRequiredMixin, UpdateView):
+    model = ParentProfile
+    form_class = ParentForm
+    template_name = "accounts/fill_info_parent.html"
+    success_url = reverse_lazy("parent_dashboard")
+    def get_object(self):
+        # Always return the  student of the logged-in user
+        return ParentProfile.objects.get(user=self.request.user)
+    #add teacher to context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["parent"] = self.get_object()  # Add student for the header
+        return context

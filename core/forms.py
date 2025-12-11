@@ -11,7 +11,7 @@ class UserCreateForm(UserCreationForm):
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        fields = ['user','school_class','roll_number','parent']
+        fields = ['user','school_class','roll_number','parent','image']
 
 class AttendanceForm(forms.ModelForm):
     class Meta:
@@ -35,13 +35,13 @@ class ClassForm(forms.ModelForm):
 class TeacherForm(forms.ModelForm):
     class Meta:
         model = TeacherProfile
-        fields = ["user","subjects","bio"]
+        fields = ["user","subjects","bio","image"]     # Exclude 'user' field to set it in the view and form
 class ParentForm(forms.ModelForm):
     class Meta:
         model = ParentProfile
-        fields = ["user","phone"]
+        fields = ["user","phone","image"]
 class StaffForm(forms.ModelForm):
     class Meta:
         model = StaffProfile
-        fields = ["user","position","phone","bio"]
+        fields = ["user","position","phone","bio","image"]
 

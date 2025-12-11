@@ -1,12 +1,14 @@
 from django.urls import path
-from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from . import views as core_views
 from .views import (register_view,login_view, StudentListView, StudentDetailView, StudentCreateView,
                     AttendanceListView, AttendanceCreateView, GradeListView, GradeCreateView,SubjectListView,SubjectCreateView,SubjectDetailView
                     ,TeacherListView,TeacherDetailView,TeacherCreateView,ClassListview,ClassCreateView,ParentListView,ParentCreateView,StaffListView,StaffCreateView)
-from accounts import views
+from accounts import views as accounts_views
 urlpatterns = [
-    path('', views.register_view, name="register"),
-    path('dashbord/',views.admin_dashboard , name='dashboard'),
+    path('', accounts_views.register_view, name="register"),
+    path('dashbord/', accounts_views.admin_dashboard , name='dashboard'),
     path('students/', StudentListView.as_view(), name='students'),
     path('students/add/', StudentCreateView.as_view(), name='student-add'),
     path('students/<int:pk>/', StudentDetailView.as_view(), name='student-detail'),
@@ -27,3 +29,5 @@ urlpatterns = [
     path('staffs/', StaffListView.as_view(),name='staff-list'),
     path('staffs/create',StaffCreateView.as_view(),name='staff-create')
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

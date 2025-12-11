@@ -1,7 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
 from django.utils import timezone
 
+def user_directory_path(instance, filename):
+    """
+    Save image to media/<role>/<username>/<filename>
+    """
+    role = instance.__class__.__name__.replace('Profile', '').lower()  # e.g., teacher, student
+    username = instance.user.username
+    return f'{role}/{username}/{filename}'
 class User(AbstractUser):
     ROLE_CHOICES = (
         ('admin','Admin'),
@@ -33,25 +41,43 @@ class TeacherProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     subjects = models.ManyToManyField(Subject, blank=True)
     bio = models.TextField(blank=True)
+    image = models.ImageField(
+        upload_to=user_directory_path,
+        default='default/teacher.jpg',
+        blank=True
+    )
     def __str__(self): return self.user.get_full_name() or self.user.username
 
 class ParentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, blank=True)
+    image = models.ImageField(
+        upload_to=user_directory_path,
+        default='default/parent.png',
+        blank=True
+    )
     def __str__(self): return self.user.get_full_name() or self.user.username
-
 class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     school_class = models.ForeignKey(SchoolClass, on_delete=models.SET_NULL, null=True, blank=True)
     roll_number = models.CharField(max_length=20, blank=True)
     parent = models.ForeignKey(ParentProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField(
+        upload_to=user_directory_path,
+        default='default/Student.png',
+        blank=True
+    )
     def __str__(self): return self.user.get_full_name() or self.user.username
-
 class StaffProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     position = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=20, blank=True)
     bio = models.TextField(blank=True)
+    image = models.ImageField(
+        upload_to=user_directory_path,
+        default='default/staff.png',
+        blank=True
+    )
     def __str__(self): return self.user.get_full_name() or self.user.username
     
 class Attendance(models.Model):

@@ -60,13 +60,18 @@
             </a>
         </li>
         <li class="nav-item mb-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'student_dashboard' %}">
                 <i class="bi bi-journal-bookmark"></i> Grades
             </a>
         </li>
         <li class="nav-item mb-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'student_dashboard' %}">
                 <i class="bi bi-calendar-check"></i> Attendance
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link" href="{% url 'fill_info_student' %}">
+               <i class="bi bi-info-circle text-primary"></i> Fill Information
             </a>
         </li>
     {% endif %}
@@ -78,8 +83,14 @@
             </a>
         </li>
         <li class="nav-item mb-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'teacher_dashboard' %}">
                 <i class="bi bi-book"></i> Classes
+            </a>
+        </li>
+        
+        <li class="nav-item mb-2">
+            <a class="nav-link" href="{% url 'fill_info' %}">
+               <i class="bi bi-info-circle text-primary"></i> Fill Information
             </a>
         </li>
     {% endif %}
@@ -91,16 +102,26 @@
             </a>
         </li>
         <li class="nav-item mb-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'staff_dashboard' %}">
                 <i class="bi bi-tools"></i> Management Tools
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link" href="{% url 'fill_info_staff' %}">
+               <i class="bi bi-info-circle text-primary"></i> Fill Information
             </a>
         </li>
     {% endif %}
 
     {% if user.role == "parent" %}
         <li class="nav-item mb-2">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'parent_dashboard' %}">
                 <i class="bi bi-person-heart"></i> Parent Dashboard
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a class="nav-link" href="{% url 'fill_info_parent' %}">
+               <i class="bi bi-info-circle text-primary"></i> Fill Information
             </a>
         </li>
     {% endif %}
@@ -127,7 +148,21 @@
     <div class="flex-grow-1 p-4">
         {% block header %}
         <div class="mb-4">
-            <h2 class="fw-bold"><i class="bi bi-person-circle text-primary"></i> Welcome, {{ user.first_name }}</h2>
+            <h2 class="fw-bold">
+                {% if user.role == "teacher" %}
+                    <img src="{{ teacher.image.url }}" alt="" class="rounded-circle border border-3 border-primary" width="90" height="90">
+                {% elif user.role == "staff" %}
+                   <img src="{{ staff.image.url }}" alt="" class="rounded-circle border border-3 border-primary" width="90" height="90">
+                {% elif user.role == "parent" %}
+                    <img src="{{ parent.image.url }}" alt="" class="rounded-circle border border-3 border-primary" width="90" height="90">
+                {% elif user.role == "admin" %}
+                    <img src="{{ admin.image.url }}" alt="" class="rounded-circle border border-3 border-primary" width="90" height="90">
+                {% elif user.role == "student" %}
+                    <img src="{{ student.image.url }}" alt="" class="rounded-circle border border-3 border-primary" width="90" height="90">
+                {% endif %}
+                <!-- <i class="bi bi-person-circle text-primary"></i> -->
+                 Welcome, {{ user.first_name }}
+            </h2>
             <p class="text-muted">{% block subtitle %}Overview of your dashboard{% endblock %}</p>
         </div>
         {% endblock %}

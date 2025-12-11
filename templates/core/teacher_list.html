@@ -4,19 +4,30 @@
     <h1 class="h4">Teachers</h1>
     <a class="btn btn-primary" href="{% url 'teacher-create'%}">➕Add Teacher</a>
   </div>
-  <table class="table table-striped table-hover">
-    <thead><tr><th>Teacher Name</th><th>Subject</th><th>Bio</th><th></th></tr></thead>
+  <table class="table table-striped table-hover align-middle">
+    <thead><tr><th>Teacher Name</th><th>Subject</th><th>Bio</th><th>Action</th></tr></thead>
     <tbody>
-      {% for t in teachers %}
-      <tr>
-        <td>{{ t.user.get_full_name }}</td>
-        <td>{{ t.subject }}</td>
-        <td>{{ t.bio }}</td>
-        <td><a class="btn btn-sm btn-outline-primary" href="{% url 'teacher-detail' t.pk %}">View</a></td>
-      </tr>
+  {% for t in teachers %}
+  <tr>
+    <td>{{ t.user.get_full_name }}</td>  <!-- 1 -->
+    <td>
+      {% for sub in t.subjects.all %}
+        {{ sub.name }}{% if not forloop.last %}, {% endif %}
       {% empty %}
-      <tr><td colspan="4">No Teacher</td></tr>
+        None
       {% endfor %}
-    </tbody>
+    </td>  <!-- 2 -->
+    <td>{{ t.bio|default:"-" }}</td>      <!-- 3 -->
+    <td>
+      <a class="btn btn-sm btn-outline-primary" href="{% url 'teacher-detail' t.pk %}">View</a>
+    </td>  <!-- 4 -->
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="4" class="text-center">No Teacher</td>
+  </tr>
+  {% endfor %}
+</tbody>
+
   </table>
 {% endblock %}

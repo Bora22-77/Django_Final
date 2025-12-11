@@ -152,7 +152,7 @@ class ClassCreateView(LoginRequiredMixin, CreateView):
     model = SchoolClass
     form_class = ClassForm
     template_name = "core/class_form.html"
-    success_url = reverse_lazy("class_list")
+    success_url = reverse_lazy("class-list")
 class ParentListView(LoginRequiredMixin, ListView):
     model = ParentProfile
     template_name = "core/parent_list.html"
